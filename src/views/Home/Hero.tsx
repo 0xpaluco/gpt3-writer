@@ -1,12 +1,11 @@
 'use client';
 
-import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
-import { ChevronRightIcon } from "@heroicons/react/24/outline";
+import { MagicLinkForm } from '../../components';
 import { useSupabase } from '../../components/supabase-provider';
 
 export const Hero = () => {
 
-  const { supabase, session } = useSupabase();;
+  const { supabase, session } = useSupabase();
 
 
   return (
@@ -27,17 +26,11 @@ export const Hero = () => {
                 <div className="mt-10 sm:mt-12">
 
                   {!session &&
-                    <Auth
-                      supabaseClient={supabase}
-                      appearance={{ theme: ThemeSupa }}
-                      onlyThirdPartyProviders={true}
-                      theme='dark'
-                      providers={['twitter']}
-                      redirectTo='https://localhost:3000/dashboard'
-                      magicLink={true}
-                    />}
+                   <MagicLinkForm/>
+                  }
 
                 </div>
+                
               </div>
             </div>
             <div className="mt-12 -mb-16 sm:-mb-48 lg:relative lg:m-0">
