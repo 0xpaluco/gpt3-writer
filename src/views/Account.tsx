@@ -5,12 +5,14 @@ import { useUser, Session } from '@supabase/auth-helpers-react'
 import { Database } from '../../lib/database.types'
 type Profiles = Database['public']['Tables']['profiles']['Row']
 import { useSupabase } from '../components/supabase-provider'
+import { Avatar } from '../components/upload-avatar'
+import { SignOutButton } from '../components'
 
 
 export default function Account({ session }: { session?: Session }) {
 
   const [loading, setLoading] = useState(true)
-  const [username, setUsername] = useState<Profiles['username']>(null)
+  const [full_name, setFullName] = useState<Profiles['full_name']>(null)
   const [website, setWebsite] = useState<Profiles['website']>(null)
   const [avatar_url, setAvatarUrl] = useState<Profiles['avatar_url']>(null)
 
@@ -27,7 +29,7 @@ export default function Account({ session }: { session?: Session }) {
 
       let { data, error, status } = await supabase
         .from('profiles')
-        .select(`username, website, avatar_url`)
+        .select(`full_name, website, avatar_url`)
         .eq('id', user.id)
         .single()
 
@@ -36,7 +38,7 @@ export default function Account({ session }: { session?: Session }) {
       }
 
       if (data) {
-        setUsername(data.username)
+        setFullName(data.full_name)
         setWebsite(data.website)
         setAvatarUrl(data.avatar_url)
       }
@@ -49,11 +51,11 @@ export default function Account({ session }: { session?: Session }) {
   }
 
   async function updateProfile({
-    username,
+    full_name,
     website,
     avatar_url,
   }: {
-    username: Profiles['username']
+    full_name: Profiles['full_name']
     website: Profiles['website']
     avatar_url: Profiles['avatar_url']
   }) {
@@ -63,7 +65,7 @@ export default function Account({ session }: { session?: Session }) {
 
       const updates = {
         id: user.id,
-        username,
+        full_name,
         website,
         avatar_url,
         updated_at: new Date().toISOString(),
@@ -86,9 +88,9 @@ export default function Account({ session }: { session?: Session }) {
         <div className="md:grid md:grid-cols-3 md:gap-6">
           <div className="md:col-span-1">
             <div className="px-4 sm:px-0">
-              <h3 className="text-lg font-medium leading-6 text-gray-300">Profile</h3>
+              <h3 className="text-lg font-medium leading-6 text-gray-300">Account</h3>
               <p className="mt-1 text-sm text-gray-400">
-                This information will be displayed publicly so be careful what you share.
+                Basic account information.
               </p>
             </div>
           </div>
@@ -117,17 +119,19 @@ export default function Account({ session }: { session?: Session }) {
                   </div>
 
                   <div>
-                    <label htmlFor="about" className="block text-sm font-medium text-gray-300">
-                      About
+                    <label htmlFor="full_name" className="block text-sm font-medium text-gray-300">
+                      Full Name
                     </label>
                     <div className="mt-1">
-                      <textarea
-                        id="about"
-                        name="about"
-                        rows={3}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        placeholder="you@example.com"
+                      <input
+                        id="full_name"
+                        name="full_name"
+                        type="text"
+                        className="block w-full flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-200 bg-gray-600"
+                        placeholder="John Smith"
                         defaultValue={''}
+                        value={full_name || ''}
+                        onChange={(e) => setFullName(e.target.value)}
                       />
                     </div>
                     <p className="mt-2 text-sm text-gray-300">
@@ -135,37 +139,29 @@ export default function Account({ session }: { session?: Session }) {
                     </p>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300">Photo</label>
-                    <div className="mt-1 flex items-center">
-                      <span className="inline-block h-12 w-12 overflow-hidden rounded-full bg-gray-100">
-                        <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
-                      </span>
-                      <button
-                        type="button"
-                        className="ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                      >
-                        Change
-                      </button>
-                    </div>
-                  </div>
+                  <Avatar 
+                    uid={user?.id}
+                    url={avatar_url}
+                    size={150}
+                    onUpload={(url) => {
+                      setAvatarUrl(url)
+                      updateProfile({ full_name, website, avatar_url: url })
+                    }}
+                  />
 
                   
                 </div>
                 <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                  <button
-                    type="submit"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  >
-                    Save
-                  </button>
-                </div>
-                <div>
-                  <button className="button block" onClick={() => supabase.auth.signOut()}>
-                    Sign Out
-                  </button>
+                  <div>
+                    <button
+                      className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      onClick={() => updateProfile({ full_name, website, avatar_url })}
+                      disabled={loading}
+                    >
+                      {loading ? 'Loading ...' : 'Update'}
+                    </button>
+                  </div>
+
                 </div>
               </div>
             </form>
@@ -178,6 +174,8 @@ export default function Account({ session }: { session?: Session }) {
           <div className="border-t border-gray-700" />
         </div>
       </div>
+
+      <SignOutButton></SignOutButton>
     </>
     // <div className="form-widget">
     //   <div>
@@ -221,3 +219,5 @@ export default function Account({ session }: { session?: Session }) {
     // </div>
   )
 }
+
+
