@@ -23,7 +23,7 @@ export async function middleware(req: NextRequest) {
 
   // If Session
   if (session && req.nextUrl.pathname === '/') {
-    // Auth condition not met, redirect to home page.
+    // Auth condition met, redirect to dashboard.
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = '/dashboard';
     return NextResponse.redirect(redirectUrl);
