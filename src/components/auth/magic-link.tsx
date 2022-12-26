@@ -1,5 +1,5 @@
 'use client'
-import { useSupabase } from '../components/supabase-provider';
+import { useSupabase } from '../supabase-provider';
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 
 import Link from "next/link"

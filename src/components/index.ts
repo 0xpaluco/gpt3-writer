@@ -1,4 +1,5 @@
-export { default as TopBar } from './TopBar';
-export { default as Footer } from './Footer';
-export { default as MagicLinkForm } from './magic-link';
+export { default as TopBar } from './topbar';
+export { default as Footer } from './footer';
+export { default as MagicLinkForm } from './auth/magic-link';
+export { default as SignOutButton } from './auth/signout-button';
 export { default as DashboardNav } from './dashboard/dashboard-nav';
