@@ -15,7 +15,7 @@ export default function SignOutButton() {
       <div className="md:grid md:grid-cols-3 md:gap-6">
         <div className="md:col-span-1">
           <div className="px-4 sm:px-0">
-            <h3 className="text-lg font-medium leading-6 text-gray-300">Sign Out</h3>
+            <h3 className="text-lg font-medium leading-6 text-gray-300 mb-6">Sign Out</h3>
           </div>
         </div>
 
