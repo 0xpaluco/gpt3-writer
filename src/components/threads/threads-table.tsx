@@ -35,7 +35,7 @@ export default function ThreadsTable({ threads }: ThreadsTableProps) {
         </div>
       </div>
 
-      <ul role="list" className="divide-y divide-gray-200">
+      <ul role="list" className="divide-y divide-gray-200 mt-4">
         {threads?.map((thread) => (
           <li
             key={thread.id}
