@@ -11,11 +11,11 @@ export default function SignOutButton() {
 
   return (
 
-    <div className='p-4 sm:p-12'>
+    <div className='mt-4 p-0 sm:p-12'>
       <div className="md:grid md:grid-cols-3 md:gap-6">
         <div className="md:col-span-1">
           <div className="px-4 sm:px-0">
-            <h3 className="text-lg font-medium leading-6 text-gray-300 mb-6">Sign Out</h3>
+            <h3 className="text-lg font-medium leading-6 text-gray-800 mb-6">Sign Out</h3>
           </div>
         </div>
 

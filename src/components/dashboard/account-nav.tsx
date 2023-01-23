@@ -59,18 +59,18 @@ export default function AcccountNav() {
     }
 
     return (
-        <div className="flex flex-shrink-0 bg-gray-700 p-4">
+        <div className="flex flex-shrink-0">
             <Link href="/account" className="group block w-full flex-shrink-0">
                 <div className="flex items-center">
                     <div>
-                        <span className="inline-block h-12 w-12 overflow-hidden rounded-full bg-gray-100">
+                        <span className="inline-block h-10 w-10 overflow-hidden rounded-full bg-gray-100">
                             {avatar_url ? (
                                 <Image
                                     src={avatar_url}
                                     alt="Avatar"
                                     className="h-full w-full text-gray-300"
-                                    width={100}
-                                    height={100}
+                                    width={50}
+                                    height={50}
                                 />
                             ) : (
 
