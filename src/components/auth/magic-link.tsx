@@ -44,7 +44,7 @@ export default function MagicLinkForm() {
             const { data, error } = await supabase.auth.signInWithOtp({
                 email,
                 options: {
-                    emailRedirectTo: 'http://localhost:3000/account',
+                    emailRedirectTo: process.env.NEXT_PUBLIC_REDIRECT_URL,
                 },
             })
             setLoading(false)
@@ -81,7 +81,7 @@ export default function MagicLinkForm() {
                                 onClick={() => signInWithEmail()}
                                 disabled={loading}
                             >
-                                {loading ? 'Authenticating ...' : 'LogIn'}
+                                {loading ? 'Authenticating ...' : 'Sign In'}
                             </button>
                         </div>
                     </div>
