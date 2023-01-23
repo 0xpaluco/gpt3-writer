@@ -9,6 +9,32 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      authors: {
+        Row: {
+          id: number
+          created_at: string | null
+          name: string | null
+          value: string | null
+          description: string | null
+          avatar: string | null
+        }
+        Insert: {
+          id?: number
+          created_at?: string | null
+          name?: string | null
+          value?: string | null
+          description?: string | null
+          avatar?: string | null
+        }
+        Update: {
+          id?: number
+          created_at?: string | null
+          name?: string | null
+          value?: string | null
+          description?: string | null
+          avatar?: string | null
+        }
+      }
       profiles: {
         Row: {
           id: string
@@ -35,6 +61,46 @@ export interface Database {
           website?: string | null
         }
       }
+      threads: {
+        Row: {
+          id: number
+          created_at: string | null
+          content: string | null
+          author: string | null
+        }
+        Insert: {
+          id?: number
+          created_at?: string | null
+          content?: string | null
+          author?: string | null
+        }
+        Update: {
+          id?: number
+          created_at?: string | null
+          content?: string | null
+          author?: string | null
+        }
+      }
+      topics: {
+        Row: {
+          id: number
+          created_at: string | null
+          name: string | null
+          value: string | null
+        }
+        Insert: {
+          id?: number
+          created_at?: string | null
+          name?: string | null
+          value?: string | null
+        }
+        Update: {
+          id?: number
+          created_at?: string | null
+          name?: string | null
+          value?: string | null
+        }
+      }
     }
     Views: {
       [_ in never]: never
@@ -47,4 +113,3 @@ export interface Database {
     }
   }
 }
-
