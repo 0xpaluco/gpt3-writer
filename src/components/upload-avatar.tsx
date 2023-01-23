@@ -73,7 +73,7 @@ export function Avatar({
 
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-300">Photo</label>
+      <label className="block text-sm font-medium text-gray-700">Photo</label>
       <div className="mt-1 flex items-center">
         <span className="inline-block h-12 w-12 overflow-hidden rounded-full bg-gray-100">
           {avatarUrl ? (
