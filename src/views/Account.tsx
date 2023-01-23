@@ -136,9 +136,7 @@ export default function Account({ session }: { session?: Session }) {
                         onChange={(e) => setFullName(e.target.value)}
                       />
                     </div>
-                    <p className="mt-2 text-sm text-gray-500">
-                      Brief description for your profile. URLs are hyperlinked.
-                    </p>
+                    
                   </div>
 
                   <Avatar 
