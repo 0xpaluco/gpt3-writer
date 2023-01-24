@@ -33,5 +33,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/optional-session', '/required-session', '/realtime', '/account', '/dashboard', '/'],
+  matcher: ['/account', '/dashboard', '/'],
 }
