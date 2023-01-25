@@ -58,14 +58,14 @@ export async function openApiCall(promptData: PromptData) {
     model: "text-davinci-003",
     prompt: prompt.trim(),
     stop: 'Thread:',
-    max_tokens: 950,
+    max_tokens: 1000,
     temperature: 0.95,
     best_of: 1,
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
-    echo: false
+    echo: false,
   });
 
-  return completion.data.choices.pop();
+  return completion.data;
 }

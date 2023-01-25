@@ -61,6 +61,26 @@ export interface Database {
           website?: string | null
         }
       }
+      stats: {
+        Row: {
+          id: string
+          used_tokens: number | null
+          remaining_tokens: number | null
+          created_at: string | null
+        }
+        Insert: {
+          id: string
+          used_tokens?: number | null
+          remaining_tokens?: number | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          used_tokens?: number | null
+          remaining_tokens?: number | null
+          created_at?: string | null
+        }
+      }
       threads: {
         Row: {
           id: number

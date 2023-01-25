@@ -18,8 +18,8 @@ async function database(req: ExtendedRequest, res: ExtendedResponse, next: any) 
             description: 'The user does not have an active session or is not authenticated',
         })
 
-
-    req.user = session.user
+    req.supabase = supabase;
+    req.user = session.user;
     next();
 }
 

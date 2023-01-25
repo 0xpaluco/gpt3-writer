@@ -6,8 +6,7 @@ import { Database } from '../../lib/database.types'
 type Profiles = Database['public']['Tables']['profiles']['Row']
 import { useSupabase } from '../components/supabase-provider'
 import { Avatar } from '../components/upload-avatar'
-import { SignOutButton } from '../components'
-
+import { SignOutButton, Stats } from '../components'
 
 export default function Account({ session }: { session?: Session }) {
 
@@ -16,7 +15,9 @@ export default function Account({ session }: { session?: Session }) {
   const [website, setWebsite] = useState<Profiles['website']>(null)
   const [avatar_url, setAvatarUrl] = useState<Profiles['avatar_url']>(null)
 
+
   const { supabase, user } = useSupabase();
+
 
   useEffect(() => {
     getProfile()
@@ -175,7 +176,10 @@ export default function Account({ session }: { session?: Session }) {
         </div>
       </div>
 
-      <SignOutButton></SignOutButton>
+      
+      <Stats session={session}></Stats>  
+
+      <SignOutButton></SignOutButton>           
     </>
     // <div className="form-widget">
     //   <div>
