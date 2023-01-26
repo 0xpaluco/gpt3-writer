@@ -8,7 +8,7 @@ type Stats = Database['public']['Tables']['stats']['Row']
 
 export interface Stat {
     name: string,
-    number: number | null
+    number: string
 }
 
 interface StatsProps {
@@ -42,7 +42,8 @@ export default function Stats({ session }: StatsProps) {
             }
 
             if (data) {
-                setStats([{ name: 'Used Tokens', number: data.used_tokens }, { name: 'Remaining Tokens', number: data.remaining_tokens }])
+                const ammountToPay = (data.used_tokens / 1000) * 0.06
+                setStats([{ name: 'Used Tokens', number: `${data.used_tokens}` }, { name: 'Amount To Pay', number: `$${ammountToPay}` }])
             }
         } catch (error) {
             alert('Error loading user data!')
