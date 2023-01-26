@@ -64,41 +64,56 @@ export interface Database {
       stats: {
         Row: {
           id: string
-          used_tokens: number | null
-          remaining_tokens: number | null
+          used_tokens: number
+          remaining_tokens: number
           created_at: string | null
+          updated_at: string | null
         }
         Insert: {
           id: string
-          used_tokens?: number | null
-          remaining_tokens?: number | null
+          used_tokens?: number
+          remaining_tokens?: number
           created_at?: string | null
+          updated_at?: string | null
         }
         Update: {
           id?: string
-          used_tokens?: number | null
-          remaining_tokens?: number | null
+          used_tokens?: number
+          remaining_tokens?: number
           created_at?: string | null
+          updated_at?: string | null
         }
       }
       threads: {
         Row: {
+          headline: string | null
+          context: string | null
+          topic: number | null
           id: number
           created_at: string | null
+          author: number | null
           content: string | null
-          author: string | null
+          user_id: string | null
         }
         Insert: {
+          headline?: string | null
+          context?: string | null
+          topic?: number | null
           id?: number
           created_at?: string | null
+          author?: number | null
           content?: string | null
-          author?: string | null
+          user_id?: string | null
         }
         Update: {
+          headline?: string | null
+          context?: string | null
+          topic?: number | null
           id?: number
           created_at?: string | null
+          author?: number | null
           content?: string | null
-          author?: string | null
+          user_id?: string | null
         }
       }
       topics: {
