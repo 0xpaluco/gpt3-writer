@@ -52,7 +52,7 @@ export async function openApiCall(promptData: PromptData) {
     ${promptData.author ? (`Author Style: ${promptData.author.name}`) : (``)}
     ${promptData.topic ? (`Topic: ${promptData.topic.name}`) : (``)}
     ${promptData.narrative ? (`Narrative: ${promptData.narrative}`) : (``)}
-    Format: separated by [number/]
+    Format: separated by new line
     `
 
   const completion = await openai.createCompletion({
