@@ -9,9 +9,11 @@ import { composeThread, PromptData } from '../../helpers/data'
 
 type Topics = Database['public']['Tables']['topics']['Row']
 type Authors = Database['public']['Tables']['authors']['Row']
+type Threads = Database['public']['Tables']['threads']['Row']
 
 const narrativeStyles = [
-  { name: 'Simple', value: null },
+  { name: 'None', value: null },
+  { name: 'Simple', value: 'simple' },
   { name: 'Linear', value: 'linear' },
   { name: 'Viewpoint', value: 'viewpoint' },
   { name: 'Quest', value: 'quest' },
@@ -24,11 +26,12 @@ function classNames(...classes: string[]) {
 }
 
 interface TextAreaProps {
+  threadData?: Threads | null
   topics: Topics[] | null
   authors: Authors[] | null
 }
 
-export default function ComposeTextArea({ topics, authors }: TextAreaProps) {
+export default function ComposeTextArea({ threadData, topics, authors }: TextAreaProps) {
 
   const authorsList = ([{ name: 'None', value: null }] as Authors[]).concat(authors as Authors[])
   const topicList = ([{ name: 'None', value: null }] as Topics[]).concat(topics as Topics[])
@@ -41,6 +44,33 @@ export default function ComposeTextArea({ topics, authors }: TextAreaProps) {
 
   const [isGenerating, setIsGenerating] = useState(false)
   const [thread, setThread] = useState('')
+  const [promptData, setPromptData] = useState<PromptData>()
+
+  useEffect(() => {
+    if(threadData){
+
+      const threadAuthor = authorsList.filter(a => a.id === threadData.author).pop();
+      const threadTopic = topicList.filter(a => a.id === threadData.topic).pop();
+
+      const data = {
+        headline: threadData.headline,
+        context: threadData.context,
+        author: threadAuthor,
+        topic: threadTopic,
+        narrative: narrative.name,
+      } as PromptData;
+
+      setHeadline(threadData.headline || "")
+      setContext(threadData.context || "")
+      setAuthor(threadAuthor!) 
+      setTopic(threadTopic!)
+      setNarrative(narrative)
+      setThread(threadData.content || "")
+      setPromptData(data)
+    }
+  }, [threadData])
+
+  
 
   const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     // Stop the form from submitting and refreshing the page.
@@ -51,8 +81,8 @@ export default function ComposeTextArea({ topics, authors }: TextAreaProps) {
     const data = {
       headline,
       context,
-      author: `${author.name}, ${author.description}`,
-      topic: topic.name,
+      author,
+      topic,
       narrative: narrative.name,
     } as PromptData;
 
@@ -60,6 +90,7 @@ export default function ComposeTextArea({ topics, authors }: TextAreaProps) {
     const threadData = await composeThread(data)
 
     // 
+    setPromptData(data)
     setThread(threadData.thread)
     setIsGenerating(false);
     //alert(`Is this your full thread: ${result.thread}`)
@@ -312,7 +343,7 @@ export default function ComposeTextArea({ topics, authors }: TextAreaProps) {
 
       {thread && (
         <div className='mt-6 rounded-md'>
-          <ThreadPreview threadData={thread} />
+          <ThreadPreview threadData={thread} propmtData={promptData} threadId={threadData?.id}/>
         </div>
       )}
 

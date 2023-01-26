@@ -45,13 +45,13 @@ export default function ThreadsTable({ threads }: ThreadsTableProps) {
               <div className="min-w-0 flex-1">
                 <Link href={`/dashboard/edit/${thread.id}`} className="block focus:outline-none">
                   <span className="absolute inset-0" aria-hidden="true" />
-                  <p className="truncate text-sm font-medium text-gray-900">{thread.author}</p>
+                  <p className="truncate text-sm font-medium text-gray-900">{thread.headline}</p>
                 </Link>
               </div>
 
             </div>
             <div className="mt-1">
-              <p className="text-sm text-gray-600 line-clamp-2">{thread.content}</p>
+              <p className="text-sm text-gray-600 line-clamp-2">{thread.context}</p>
             </div>
           </li>
         ))}

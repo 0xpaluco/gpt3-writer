@@ -5,8 +5,12 @@ import { Tab } from '@headlessui/react'
 import { AtSymbolIcon, CodeBracketIcon, LinkIcon } from '@heroicons/react/20/solid'
 import Markdown from "../markdown"
 import { useSupabase } from "../supabase-provider"
+import { PromptData } from "../../helpers/data"
+
+
 
 interface ThreadPreviewProps {
+  propmtData?: PromptData
   threadData?: string
   threadId?: number
 }
@@ -15,57 +19,40 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function ThreadPreview({ threadData, threadId }: ThreadPreviewProps) {
+export default function ThreadPreview({ propmtData, threadData, threadId }: ThreadPreviewProps) {
 
   const [thread, setThread] = useState(threadData)
   const [loading, setLoading] = useState(false)
 
+
+  const [headline, setHeadline] = useState(propmtData?.headline)
+  const [context, setContext] = useState(propmtData?.context)
+  const [author, setAuthor] = useState(propmtData?.author)
+  const [topic, setTopic] = useState(propmtData?.topic)
+
   const { supabase, user } = useSupabase();
-
-  useEffect(() => {
-    if(threadId){
-      getThread()
-    }
-  }, [threadId])
-
-  async function getThread() {
-    try {
-      setLoading(true)
-      if (!threadId) throw new Error('No Id')
-
-      let { data, error, status } = await supabase
-        .from('threads')
-        .select(`content`)
-        .eq('id', threadId)
-        .single()
-
-      if (error && status !== 406) {
-        throw error
-      }
-
-      if (data) {
-        setThread(data.content || "")
-        
-      }
-    } catch (error) {
-      alert('Error loading thread data!')
-      console.log(error)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   async function updateThread() {
     try {
       setLoading(true)
       if (!user) throw new Error('No user')
 
-      const updates = { id: threadId, content: thread, author: user.id }
+      const updates = { 
+        id: threadId, 
+        content: thread, 
+        user_id: user.id,
+        headline,
+        context,
+        author: author?.id,
+        topic: topic?.id
+       }
 
       let { error } = await supabase.from('threads').upsert(updates)
       if (error) throw error
       alert('Thread updated!')
     } catch (error) {
+      console.log(error);
+      
       alert('Error updating the data!')
       console.log(error)
     } finally {

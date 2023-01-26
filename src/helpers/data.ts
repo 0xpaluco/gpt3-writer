@@ -1,11 +1,13 @@
 import { openai } from "../../lib/openai";
-
+import { Database } from '../../lib/database.types'
+type Topics = Database['public']['Tables']['topics']['Row']
+type Authors = Database['public']['Tables']['authors']['Row']
 
 export interface PromptData {
   headline: string,
   context: string,
-  author: string,
-  topic: string,
+  author: Authors,
+  topic: Topics,
   narrative: string
 }
 
@@ -43,21 +45,19 @@ export async function openApiCall(promptData: PromptData) {
 
   const prompt =
     `
-    Act as a Twitter thread generator. I want you to generate a series of tweets on a specific topic. The topic should be related to current events or trending topics. Each tweet should be a self-contained thought and should build upon the previous tweets in the thread. The tweets should be concise and to the point, using no more than 280 characters. The tweets must be written in the style of the provided author. Use hashtags and include images or videos if possible to make the thread more engaging. Start your thread with a catchy headline that summarizes the topic.
+    Act as a Twitter thread generator. I want you to generate a series of tweets on a specific topic. Each tweet should be a self-contained thought and should build upon the previous tweets in the thread. The tweets should be concise and to the point, using no more than 280 characters. The tweets must be written in the style of the provided author. Use hashtags and include images or videos if possible to make the thread more engaging. Using the given hook, begin your thread with a concise title that explains the subject.
 
-      Headline: ${promptData.headline}
-      Context: ${promptData.context}
-      ${promptData.author ? (`Author Style: ${promptData.author}`) : (``)}
-      ${promptData.topic ? (`Topic: ${promptData.topic}`) : (``)}
-      ${promptData.narrative ? (`Narrative: ${promptData.narrative}`) : (``)}
-
-      Thread:
-      `
+    Hook: ${promptData.headline}
+    Context: ${promptData.context}
+    ${promptData.author ? (`Author Style: ${promptData.author.name}`) : (``)}
+    ${promptData.topic ? (`Topic: ${promptData.topic.name}`) : (``)}
+    ${promptData.narrative ? (`Narrative: ${promptData.narrative}`) : (``)}
+    Format: separated by [number/]
+    `
 
   const completion = await openai.createCompletion({
     model: "text-davinci-003",
     prompt: prompt.trim(),
-    stop: 'Thread:',
     max_tokens: 1000,
     temperature: 0.95,
     best_of: 1,

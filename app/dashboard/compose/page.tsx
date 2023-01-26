@@ -11,7 +11,6 @@ export const revalidate = 0;
 // check middleware.tsx to see how this routing rule is set
 export default async function Dashboard() {
   const supabase = createServerClient();
-  const { data: profiles } = await supabase.from('profiles').select('*');
   const { data: topics } = await supabase.from('topics').select('*');
   const { data: authors } = await supabase.from('authors').select('*');
 
