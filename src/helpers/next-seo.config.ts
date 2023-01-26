@@ -1,8 +1,8 @@
 import { NextSeoProps  } from 'next-seo';
 
 export const NEXT_SEO_DEFAULT: NextSeoProps  = {
-    title: "Using More of Config",
-    description: "This example uses more of the available config options.",
+    title: "GPT-3 Writer | 0xpaluco",
+    description: "Automatically Generate High Quality Twitter Threads",
     canonical: "https://www.canonical.ie/",
     openGraph: {
         type: 'website',
@@ -27,8 +27,8 @@ export const NEXT_SEO_DEFAULT: NextSeoProps  = {
         ],
     },
     twitter: {
-        handle: '@handle',
-        site: '@site',
+        handle: '@0xpaluco',
+        site: 'https://gpt.0xpalu.co/',
         cardType: 'summary_large_image',
     },
 };
