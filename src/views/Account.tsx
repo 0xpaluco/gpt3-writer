@@ -132,7 +132,6 @@ export default function Account({ session }: { session?: Session }) {
                         type="text"
                         className="block w-full flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-700 bg-gray-100"
                         placeholder="John Smith"
-                        defaultValue={''}
                         value={full_name || ''}
                         onChange={(e) => setFullName(e.target.value)}
                       />
